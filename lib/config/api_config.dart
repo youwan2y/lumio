@@ -5,8 +5,8 @@ class ApiConfig {
   static const String llmApiKey = 'sk-27fe79531c484cf8b0a1560adcd4ccfc';
   static const String llmModel = 'qwen-flash';
 
-  // 豆包图像生成 API (火山引擎)
-  static const String imageBaseUrl = 'https://ark.cn-beijing.volces.com/api/v3';
-  static const String imageApiKey = '12649d93-d763-471c-9ede-024382c0d26f';
-  static const String imageModel = 'doubao-seedream-5-0-260128';
+  // GLM-Image 图像生成 API (智谱 AI)
+  static const String imageBaseUrl = 'https://open.bigmodel.cn/api/paas/v4';
+  static const String imageApiKey = 'sk-27fe79531c484cf8b0a1560adcd4ccfc';  // 使用相同的 API Key
+  static const String imageModel = 'glm-image';
 }

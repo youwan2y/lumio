@@ -292,23 +292,22 @@ class ImageService {
     ),
   );
 
-  /// 生成单张壁纸图片
+  /// 生成单张壁纸图片（使用 GLM-Image API）
   Future<Wallpaper> generateWallpaper(String description) async {
     try {
       final response = await _dio.post(
         '/images/generations',
         data: {
-          'model': ApiConfig.imageModel,
+          'model': ApiConfig.imageModel,  // glm-image
           'prompt': '$description, wallpaper style, high quality, beautiful',
-          'sequential_image_generation': 'disabled',
-          'response_format': 'url',
-          'size': '2K',
-          'stream': false,
-          'watermark': true,
+          'quality': 'hd',  // glm-image 只支持 hd
+          'size': '1280x1280',  // 推荐尺寸
+          'watermark_enabled': false,  // 去掉官方水印
         },
       );
 
       final imageUrl = response.data['data'][0]['url'] as String;
+      print('🖼️ 图片生成成功: $imageUrl');
       return Wallpaper(
         id: '${DateTime.now().millisecondsSinceEpoch}',
         imageUrl: imageUrl,
