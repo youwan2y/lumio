@@ -18,20 +18,20 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   String? _selectedConstellation;
   bool _isLoading = false;
 
-  // 星座列表（仅文字，配合icon）
+  // 星座列表（使用星座符号）
   static const List<Map<String, dynamic>> _constellations = [
-    {'name': '白羊座', 'icon': Icons.local_fire_department},
-    {'name': '金牛座', 'icon': Icons.agriculture},
-    {'name': '双子座', 'icon': Icons.people},
-    {'name': '巨蟹座', 'icon': Icons.shield},
-    {'name': '狮子座', 'icon': Icons.wb_sunny},
-    {'name': '处女座', 'icon': Icons.grain},
-    {'name': '天秤座', 'icon': Icons.balance},
-    {'name': '天蝎座', 'icon': Icons.bug_report},
-    {'name': '射手座', 'icon': Icons.architecture},
-    {'name': '摩羯座', 'icon': Icons.landscape},
-    {'name': '水瓶座', 'icon': Icons.water_drop},
-    {'name': '双鱼座', 'icon': Icons.phishing},
+    {'name': '白羊座', 'symbol': '♈'},
+    {'name': '金牛座', 'symbol': '♉'},
+    {'name': '双子座', 'symbol': '♊'},
+    {'name': '巨蟹座', 'symbol': '♋'},
+    {'name': '狮子座', 'symbol': '♌'},
+    {'name': '处女座', 'symbol': '♍'},
+    {'name': '天秤座', 'symbol': '♎'},
+    {'name': '天蝎座', 'symbol': '♏'},
+    {'name': '射手座', 'symbol': '♐'},
+    {'name': '摩羯座', 'symbol': '♑'},
+    {'name': '水瓶座', 'symbol': '♒'},
+    {'name': '双鱼座', 'symbol': '♓'},
   ];
 
   Future<void> _handleSubmit() async {
@@ -89,7 +89,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const SizedBox(height: 40),
+              const SizedBox(height: 20),
 
               // 标题
               const Text(
@@ -101,7 +101,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 ),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: 8),
               const Text(
                 '选择你的星座，开始探索',
                 style: TextStyle(
@@ -110,7 +110,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 ),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 48),
+              const SizedBox(height: 32),
 
               // 星座选择网格
               GridView.builder(
@@ -118,9 +118,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 physics: const NeverScrollableScrollPhysics(),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3,
-                  mainAxisSpacing: 12,
-                  crossAxisSpacing: 12,
-                  childAspectRatio: 1.0,
+                  mainAxisSpacing: 10,
+                  crossAxisSpacing: 10,
+                  childAspectRatio: 1.1,
                 ),
                 itemCount: _constellations.length,
                 itemBuilder: (context, index) {
@@ -144,16 +144,18 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(
-                            constellation['icon'] as IconData,
-                            color: isSelected ? AppTheme.white : AppTheme.gray,
-                            size: 32,
+                          Text(
+                            constellation['symbol'] as String,
+                            style: TextStyle(
+                              fontSize: 28,
+                              color: isSelected ? AppTheme.white : AppTheme.gray,
+                            ),
                           ),
-                          const SizedBox(height: 8),
+                          const SizedBox(height: 4),
                           Text(
                             constellation['name'],
                             style: TextStyle(
-                              fontSize: 13,
+                              fontSize: 12,
                               color: isSelected ? AppTheme.white : AppTheme.black,
                               fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
                             ),
@@ -165,7 +167,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   );
                 },
               ),
-              const SizedBox(height: 48),
+              const SizedBox(height: 24),
 
               // 说明文字
               const Text(
@@ -176,7 +178,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 ),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 32),
+              const SizedBox(height: 20),
 
               // 提交按钮
               PrimaryButton(
@@ -184,7 +186,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 onPressed: _handleSubmit,
                 isLoading: _isLoading,
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: 16),
             ],
           ),
         ),
