@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../config/app_theme.dart';
 import '../providers/app_state.dart';
 import '../widgets/page_transitions.dart';
+import '../widgets/premium_dialog.dart';
 import 'card_screen.dart';
 
 /// 加载页面
@@ -35,11 +36,39 @@ class _LoadingScreenState extends State<LoadingScreen>
     final state = context.read<AppState>();
     final success = await state.generateWallpapers();
 
+    if (!success && mounted) {
+      // 生成失败，检查是否需要显示 VIP 对话框
+      if (state.loadingMessage.contains('免费使用次数已用完')) {
+        _showPremiumDialog();
+      }
+      return;
+    }
+
     if (success && mounted) {
       Navigator.of(context).pushReplacement(
         FadeScaleRoute(page: const CardScreen()),
       );
     }
+  }
+
+  void _showPremiumDialog() {
+    final state = context.read<AppState>();
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => PremiumDialog(
+        remainingUses: state.remainingFreeUsage,
+        onPurchase: () {
+          Navigator.of(context).pop();
+          state.buyVIP();
+        },
+      ),
+    ).then((_) {
+      // 对话框关闭后返回上一页
+      if (mounted) {
+        Navigator.of(context).pop();
+      }
+    });
   }
 
   @override

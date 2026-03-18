@@ -246,7 +246,7 @@ class ResultScreen extends StatelessWidget {
       if (image == null) return imageData;
 
       // 水印文字
-      const watermarkText = 'Lumio - Lucy Wall Paper';
+      const watermarkText = 'Nivolune';
 
       // 设置字体大小（根据图片高度自适应）
       final fontSize = (image.height * 0.025).round().clamp(12, 24);

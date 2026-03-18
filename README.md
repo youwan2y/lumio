@@ -1,4 +1,4 @@
-# 🌟 Lumio - AI Wallpaper Generator
+# 🌟 Nivolune - AI Wallpaper Generator
 
 <div align="center">
 
@@ -12,7 +12,7 @@
 
 ## 📱 About
 
-**Lumio** (Lucy Wall Paper) is an intelligent wallpaper generation app that creates unique, personalized wallpapers based on your mood, energy, style preferences, and even your zodiac sign!
+**Nivolune** is an intelligent wallpaper generation app that creates unique, personalized wallpapers based on your mood, energy, style preferences, and even your zodiac sign!
 
 ### 🎯 Core Concept
 - Answer 3 simple questions about your current state
@@ -111,8 +111,8 @@ Save Wallpaper
 
 1. **Clone the repository**
 ```bash
-git clone https://github.com/youwan2y/lumio.git
-cd lumio
+git clone https://github.com/youwan2y/nivolune.git
+cd nivolune
 ```
 
 2. **Install dependencies**
@@ -177,7 +177,7 @@ flutter run -d android
 **Image Generation**
 - Send description to Doubao Image API
 - Generate 2K HD wallpaper (3136x1312)
-- Apply watermark: "Lumio - Lucy Wall Paper"
+- Apply watermark: "Nivolune"
 - Create 9 identical cards for selection
 
 ---
@@ -333,8 +333,8 @@ This project is open source and available under the [MIT License](LICENSE).
 
 <div align="center">
 
-**Made with ❤️ by Lumio Team**
+**Made with ❤️ by Nivolune Team**
 
-[⬆ Back to Top](#-lumio---ai-wallpaper-generator)
+[⬆ Back to Top](#-nivolune---ai-wallpaper-generator)
 
 </div>

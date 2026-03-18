@@ -2,12 +2,12 @@
 class UserProfile {
   final String? constellation;  // 星座
   final int? age;               // 年龄
-  final bool isOnboarded;       // 是否已完成首次登录
+  final bool isOnboarded;       // 是否已完成首次登录（保留字段以兼容）
 
   const UserProfile({
     this.constellation,
     this.age,
-    this.isOnboarded = false,
+    this.isOnboarded = true,  // 默认为 true
   });
 
   UserProfile copyWith({

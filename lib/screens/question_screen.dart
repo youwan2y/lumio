@@ -4,6 +4,7 @@ import '../config/app_theme.dart';
 import '../models/models.dart';
 import '../providers/app_state.dart';
 import '../widgets/widgets.dart';
+import '../widgets/premium_dialog.dart';
 import '../widgets/page_transitions.dart';
 import 'loading_screen.dart';
 
@@ -19,47 +20,17 @@ class QuestionScreen extends StatelessWidget {
           body: SafeArea(
             child: Column(
               children: [
-                // 顶部栏
-                Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Row(
-                    children: [
-                      // 统一使用IconButton，保持布局一致性
-                      IconButton(
-                        onPressed: state.currentQuestion > 0 ? state.previousQuestion : null,
-                        icon: const Icon(Icons.arrow_back_ios),
-                        // 禁用时不透明，保持占位
-                        style: IconButton.styleFrom(
-                          disabledForegroundColor: Colors.transparent,
-                        ),
-                      ),
-                      const Spacer(),
-                      Text(
-                        '${state.currentQuestion + 1}/3',
-                        style: const TextStyle(
-                          fontSize: 16,
-                          color: AppTheme.gray,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-
-                // 问题内容
+                _buildTopBar(state),
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.all(40),
                     child: _buildQuestionContent(context, state),
                   ),
                 ),
-
-                // 进度指示器
                 Padding(
                   padding: const EdgeInsets.only(bottom: 20),
                   child: ProgressDots(current: state.currentQuestion),
                 ),
-
-                // 底部按钮
                 Padding(
                   padding: const EdgeInsets.all(20),
                   child: PrimaryButton(
@@ -75,7 +46,89 @@ class QuestionScreen extends StatelessWidget {
     );
   }
 
+  Widget _buildTopBar(AppState state) {
+    return Padding(
+      padding: const EdgeInsets.all(20),
+      child: Row(
+        children: [
+          IconButton(
+            onPressed: state.currentQuestion > 0 ? state.previousQuestion : null,
+            icon: const Icon(Icons.arrow_back_ios),
+            style: IconButton.styleFrom(
+              disabledForegroundColor: Colors.transparent,
+            ),
+          ),
+          const Spacer(),
+          _buildUsageIndicator(state),
+          const SizedBox(width: 8),
+          Text(
+            '${state.currentQuestion + 1}/3',
+            style: const TextStyle(
+              fontSize: 16,
+              color: AppTheme.gray,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildUsageIndicator(AppState state) {
+    if (state.isPremium) {
+      return _buildBadge(
+        icon: Icons.all_inclusive,
+        text: '高级版',
+        color: AppTheme.accent,
+      );
+    } else if (state.remainingFreeUsage > 0) {
+      return _buildBadge(
+        icon: Icons.auto_awesome,
+        text: '剩余 ${state.remainingFreeUsage} 次',
+        color: AppTheme.accent,
+      );
+    } else {
+      return _buildBadge(
+        icon: Icons.warning,
+        text: '次数已用完',
+        color: Colors.red,
+      );
+    }
+  }
+
+  Widget _buildBadge({
+    required IconData icon,
+    required String text,
+    required Color color,
+  }) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 16, color: color),
+          const SizedBox(width: 4),
+          Text(
+            text,
+            style: TextStyle(
+              fontSize: 12,
+              color: color,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildQuestionContent(BuildContext context, AppState state) {
+    if (state.currentQuestion == 2) {
+      return _buildQuestion3(context, state);
+    }
+
     final question = Questions.all[state.currentQuestion];
     double value;
     ValueChanged<double> onChanged;
@@ -89,11 +142,9 @@ class QuestionScreen extends StatelessWidget {
         value = state.answer.energy;
         onChanged = state.updateEnergy;
         break;
-      case 2:
-        return _buildQuestion3(context, state, question);
       default:
-        value = state.answer.mood;
-        onChanged = state.updateMood;
+        value = state.answer.style;
+        onChanged = state.updateStyle;
     }
 
     return MoodSlider(
@@ -103,92 +154,84 @@ class QuestionScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildQuestion3(BuildContext context, AppState state, Question question) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          // 问题标题
-          const Text(
-            '你喜欢什么样的风格?',
-            style: TextStyle(
-              fontSize: 28,
-              fontWeight: FontWeight.bold,
-              color: AppTheme.black,
-            ),
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 12),
-          const Text(
-            '选择你偏好的视觉风格',
-            style: TextStyle(fontSize: 16, color: AppTheme.gray),
-          ),
-          const SizedBox(height: 30),
+  Widget _buildQuestion3(BuildContext context, AppState state) {
+    final question = Questions.all[2];
 
-          // 数值显示
-          Text(
-            '${(state.answer.style * 100).toInt()}%',
-            style: const TextStyle(
-              fontSize: 48,
-              fontWeight: FontWeight.bold,
-              color: AppTheme.black,
-            ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          question.title,
+          style: const TextStyle(
+            fontSize: 28,
+            fontWeight: FontWeight.bold,
+            color: AppTheme.black,
           ),
-          const SizedBox(height: 20),
-
-          // 拖动条
-          Slider(
+          textAlign: TextAlign.center,
+        ),
+        const SizedBox(height: 12),
+        Text(
+          question.subtitle,
+          style: const TextStyle(
+            fontSize: 16,
+            color: AppTheme.gray,
+          ),
+          textAlign: TextAlign.center,
+        ),
+        const SizedBox(height: 40),
+        Expanded(
+          child: MoodSlider(
             value: state.answer.style,
             onChanged: state.updateStyle,
+            question: question,
           ),
-          const SizedBox(height: 8),
-
-          // 标签
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    Icon(Icons.brush, size: 16, color: AppTheme.gray),
-                    const SizedBox(width: 4),
-                    Text('抽象', style: TextStyle(fontSize: 14, color: AppTheme.gray)),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Icon(Icons.camera_alt, size: 16, color: AppTheme.gray),
-                    const SizedBox(width: 4),
-                    Text('写实', style: TextStyle(fontSize: 14, color: AppTheme.gray)),
-                  ],
-                ),
-              ],
-            ),
+        ),
+        const SizedBox(height: 20),
+        Container(
+          decoration: BoxDecoration(
+            color: AppTheme.background,
+            borderRadius: BorderRadius.circular(12),
           ),
-          const SizedBox(height: 30),
-
-          // 输入框
-          TextField(
+          child: TextField(
             onChanged: state.updateInput,
-            maxLines: 3,
             decoration: const InputDecoration(
-              hintText: '添加你的灵感...\n例如: 星空、海洋、樱花',
-              hintStyle: TextStyle(color: AppTheme.gray),
+              hintText: '或者输入你自己的想法...',
+              border: InputBorder.none,
+              contentPadding: EdgeInsets.all(16),
             ),
+            maxLines: 3,
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
-  void _handleNext(BuildContext context, AppState state) {
+  Future<void> _handleNext(BuildContext context, AppState state) async {
     if (state.currentQuestion < 2) {
       state.nextQuestion();
     } else {
-      // 跳转到加载页（书本翻页效果）
-      Navigator.of(context).pushReplacement(
-        BookPageRoute(page: const LoadingScreen()),
-      );
+      final canGenerate = await state.canUseGeneration();
+
+      if (!canGenerate && context.mounted) {
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (ctx) => PremiumDialog(
+            remainingUses: state.remainingFreeUsage,
+            onPurchase: () {
+              Navigator.of(ctx).pop();
+              state.buyVIP();
+            },
+          ),
+        );
+        return;
+      }
+
+      if (context.mounted) {
+        Navigator.of(context).pushReplacement(
+          FadeScaleRoute(page: const LoadingScreen()),
+        );
+      }
     }
   }
 }

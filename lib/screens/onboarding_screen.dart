@@ -93,7 +93,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
               // 标题
               const Text(
-                '欢迎使用 Lumio',
+                '欢迎使用 Nivolune',
                 style: TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,

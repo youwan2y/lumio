@@ -1,4 +1,4 @@
-# Lumio - Lucy Wall Paper 启动指南
+# Nivolune 启动指南
 
 ## 快速启动（推荐）
 

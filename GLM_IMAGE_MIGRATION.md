@@ -91,8 +91,8 @@ Future<void> _saveToGallery(BuildContext context, String url) async {
 Future<Uint8List> _addWatermark(Uint8List imageData) async {
   final image = img.decodeImage(imageData);
 
-  // ✅ 产品水印：Lumio - Lucy Wall Paper
-  const watermarkText = 'Lumio - Lucy Wall Paper';
+  // ✅ 产品水印：Nivolune
+  const watermarkText = 'Nivolune';
 
   final textImage = img.drawString(
     image,
@@ -121,7 +121,7 @@ Future<Uint8List> _addWatermark(Uint8List imageData) async {
     ↓
 [无官方水印] ← watermark_enabled: false ✅
     ↓
-[添加产品水印] ← "Lumio - Lucy Wall Paper" ✅
+[添加产品水印] ← "Nivolune" ✅
     ↓
 [保存到相册]
 ```
@@ -211,7 +211,7 @@ flutter run -d ios
 
 ### 4. 验证水印
 在相册中查看保存的图片：
-- ✅ 应该**只有** "Lumio - Lucy Wall Paper" 水印
+- ✅ 应该**只有** "Nivolune" 水印
 - ✅ **没有** GLM-Image 的官方水印
 - ✅ 水印位置：右下角，白色半透明
 
@@ -354,4 +354,4 @@ static const String imageApiKey = 'sk-27fe79531c484cf8b0a1560adcd4ccfc';
 
 **配置完成！** 🎉
 
-现在你的应用使用 GLM-Image API，无官方水印，只保留你的产品水印 "Lumio - Lucy Wall Paper"！
+现在你的应用使用 GLM-Image API，无官方水印，只保留你的产品水印 "Nivolune"！

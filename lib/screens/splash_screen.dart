@@ -28,19 +28,10 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void _handleStart() {
-    final state = context.read<AppState>();
-
-    if (state.userProfile.isOnboarded) {
-      // 已完成首次登录，跳转到问题页面
-      Navigator.of(context).pushReplacement(
-        BookPageRoute(page: const QuestionScreen()),
-      );
-    } else {
-      // 首次登录，跳转到用户信息输入页面
-      Navigator.of(context).pushReplacement(
-        BookPageRoute(page: const OnboardingScreen()),
-      );
-    }
+    // 直接跳转到问题页面
+    Navigator.of(context).pushReplacement(
+      BookPageRoute(page: const QuestionScreen()),
+    );
   }
 
   @override

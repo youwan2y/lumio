@@ -6,7 +6,9 @@ class AppTheme {
   static const Color black = Color(0xFF000000);
   static const Color darkGray = Color(0xFF333333);
   static const Color gray = Color(0xFF666666);
-  static const Color lightGray = Color(0xFFF5F5F5);
+  static const Color lightGray = Color(0xFF999999);
+  static const Color background = Color(0xFFF5F5F5);
+  static const Color accent = Color(0xFF667EEA); // VIP 强调色
   static const Color white = Color(0xFFFFFFFF);
 
   // 主题

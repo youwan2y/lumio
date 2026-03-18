@@ -16,18 +16,18 @@ void main() {
     ),
   );
 
-  runApp(const LumeLucyApp());
+  runApp(const NivoluneApp());
 }
 
-class LumeLucyApp extends StatelessWidget {
-  const LumeLucyApp({super.key});
+class NivoluneApp extends StatelessWidget {
+  const NivoluneApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (_) => AppState(),
       child: MaterialApp(
-        title: 'Lume Lucy Paperwall',
+        title: 'Nivolune',
         debugShowCheckedModeBanner: false,
         theme: AppTheme.light,
         home: const SplashScreen(),
